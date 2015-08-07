@@ -1,0 +1,24 @@
+{
+  "name": "happyrestrange",
+  "version": "1.0.0",
+  "description": "Express middleware to extract range from request",
+  "main": "extractRange.js",
+  "scripts": {
+    "test": "mocha --ui bdd --reporter list -- test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanninho/happyRestRange.git"
+  },
+  "author": "Yannick Saint Martino <y4nn5m@gmail.com> (http://yannick-saintmartino.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanninho/happyRestRange/issues"
+  },
+  "homepage": "https://github.com/yanninho/happyRestRange#readme",
+  "devDependencies": {
+    "express": "^4.13.3",
+    "mocha": "^2.2.5",
+    "supertest": "^1.0.1"
+  }  
+}
