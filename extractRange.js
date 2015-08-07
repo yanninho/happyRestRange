@@ -4,9 +4,9 @@
 * Example : /test?range=10-20 give req.happyRest.filters = {"offset" : "10", "limit" : "20" }
 **/
 
-module.exports = function(maxResult) {
-  return function extractRange(req, res, next) {
-  	if (!maxResult) maxResult = 50;
+module.exports = {
+  extractRange: function(req, res, next) {
+  	var maxResult = req.maxResult || 50;
     if (!req.happyRest) req.happyRest = {};
     if (req.happyRest.range) return next();
 
@@ -31,5 +31,5 @@ module.exports = function(maxResult) {
 	}
 
     next();
-  };
+  }
 };

@@ -4,7 +4,7 @@ var express = require('express')
 
 var app = express();
 
-app.use(extractRange(30));
+app.use(extractRange.extractRange);
 
 app.use(function(req, res, next){
   res.end(JSON.stringify(req.happyRest.range));
