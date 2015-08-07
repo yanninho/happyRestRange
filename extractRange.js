@@ -31,5 +31,23 @@ module.exports = {
 	}
 
     next();
+  },
+  
+  setHeader: function(req, res, next) {
+  	if (!req.happyRest) return res.status(500).send({reason : 'Server middleware are not well configured'});
+
+  	if (req.resourceName && req.maxResult) {
+  		res.setHeader('Accept-Range', req.resourceName + ' ' + req.maxResult);  	
+  	}
+
+  	if (req.happyRest.range && req.count) {
+  		res.setHeader('Content-Range', req.happyRest.range.offset + '-' + req.happyRest.range.limit + '/'+ req.count );
+  	}
+  	
+  	var status = 200;
+	if (req.result.length < req.count) {
+		status = 206;
+	}
+	return res.status(status).json(req.result);	 
   }
 };
