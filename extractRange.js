@@ -6,7 +6,7 @@
 
 module.exports = {
   extractRange: function(req, res, next) {
-  	var maxResult = req.maxResult || 50;
+    var maxResult = req.maxResult || 50;
     if (!req.happyRest) req.happyRest = {};
     if (req.happyRest.range) return next();
 
@@ -14,40 +14,35 @@ module.exports = {
 
     var range = req.query.range;  
 
-	var rangeArray = undefined;
-	if (!range) {
-		rangeArray = [0,maxResult];
-	}
-	else {		
-		rangeArray = range.split('-');
-	}
+  var rangeArray = undefined;
+  if (!range) {
+    rangeArray = [0,maxResult];
+  }
+  else {    
+    rangeArray = range.split('-');
+  }
 
-	if (rangeArray[1] > maxResult) {
-		throw new Error('Requested range not allowed');		
-	}
-	req.happyRest.range = {
-		offset : rangeArray[0],
-		limit : rangeArray[1],
-	}
+  if (rangeArray[1] > maxResult) {
+    return next({status:400, reason : 'Requested range not allowed'});
+  }
+  req.happyRest.range = {
+    offset : rangeArray[0],
+    limit : rangeArray[1],
+  }
 
     next();
   },
   
-  setHeader: function(req, res, next) {
-  	if (!req.happyRest) return res.status(500).send({reason : 'Server middleware are not well configured'});
+  setHeader: function(req, res, next) {        
+      if (!req.happyRest) return next(new Error({status:500,reason : 'Server middleware are not well configured'}));
 
-  	if (req.resourceName && req.maxResult) {
-  		res.setHeader('Accept-Range', req.resourceName + ' ' + req.maxResult);  	
-  	}
+      if (req.resourceName && req.maxResult) {
+        res.setHeader('Accept-Range', req.resourceName + ' ' + req.maxResult);    
+      }
 
-  	if (req.happyRest.range && req.count) {
-  		res.setHeader('Content-Range', req.happyRest.range.offset + '-' + req.happyRest.range.limit + '/'+ req.count );
-  	}
-  	
-  	var status = 200;
-	if (req.result.length < req.count) {
-		status = 206;
-	}
-	return res.status(status).json(req.result);	 
+      if (req.happyRest.range && req.count) {
+        res.setHeader('Content-Range', req.happyRest.range.offset + '-' + req.happyRest.range.limit + '/'+ req.count );
+      }
+    next();    
   }
 };
