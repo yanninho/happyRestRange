@@ -1,6 +1,6 @@
 {
   "name": "happyrestrange",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Express middleware to extract range from request",
   "main": "extractRange.js",
   "scripts": {

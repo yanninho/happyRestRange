@@ -33,11 +33,11 @@ var calcPrev = function(offset, nb) {
 };
 
 var calcNext = function(limit, count, nb) {
-  var nextBegin = limit + 1;
+  var nextBegin = parseInt(limit) + 1;
   if (nextBegin >= count) {
     return undefined;
   }
-  var nextEnd = limit + 1 + nb;
+  var nextEnd = parseInt(limit) + 1 + nb;
   if (nextEnd >= count) {
     nextEnd = count;
   }
@@ -88,8 +88,8 @@ module.exports = {
   else {    
     rangeArray = range.split('-');
   }
-
-  if (rangeArray[1] > maxResult) {
+  var nbRequested = rangeArray[1] - rangeArray[0];
+  if (nbRequested > maxResult) {
     addAcceptRange(req, res);
     res.status(400).send({reason : 'Requested range not allowed'});
   }
