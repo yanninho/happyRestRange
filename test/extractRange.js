@@ -1,6 +1,6 @@
-var express = require('express')
-  , request = require('supertest')
-  , extractRange = require('../extractRange');
+var express = require('express'), 
+	request = require('supertest'),
+    extractRange = require('../extractRange');
 
 var app = express();
 
@@ -15,6 +15,5 @@ describe('extractRange()', function(){
       request(app)
       .get('/test?range=10-20')
       .expect('{"offset":"10","limit":"20"}', done);
-    })
- 
-})
+    });
+});

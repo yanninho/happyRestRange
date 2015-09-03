@@ -1,6 +1,6 @@
 {
   "name": "happyrestrange",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Express middleware to extract range from request",
   "main": "extractRange.js",
   "scripts": {
@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/yanninho/happyRestRange#readme",
   "devDependencies": {
+    "chai": "^3.2.0",
     "express": "^4.13.3",
     "mocha": "^2.2.5",
+    "should": "^7.1.0",
     "supertest": "^1.0.1"
-  }  
+  }
 }

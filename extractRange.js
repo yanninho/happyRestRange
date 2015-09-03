@@ -10,14 +10,65 @@ var addAcceptRange = function(req, res) {
     if (req.resourceName && req.maxResult) {
       res.setHeader('Accept-Range', req.resourceName + ' ' + req.maxResult);    
     }        
-}
+};
 
 var addContentRange = function(req, res) {
   if (!req.happyRest) res.status(500).send({reason : txtErrorConf});
   if (req.happyRest.range && req.count) {
     res.setHeader('Content-Range', req.happyRest.range.offset + '-' + req.happyRest.range.limit + '/'+ req.count );
   }      
-}
+};
+
+var calcPrev = function(offset, nb) {
+  if (offset === 0) {
+    return undefined;
+  }
+  var prevBegin = offset - (1 + nb);
+  if (prevBegin < 0) {
+    prevBegin = 0;
+  } 
+  var prevEnd = offset - 1;
+  var prev = prevBegin + '-' + prevEnd + ';rel=prev';   
+  return prev;
+};
+
+var calcNext = function(limit, count, nb) {
+  var nextBegin = limit + 1;
+  if (nextBegin >= count) {
+    return undefined;
+  }
+  var nextEnd = limit + 1 + nb;
+  if (nextEnd >= count) {
+    nextEnd = count;
+  }
+  var next = nextBegin + '-' + nextEnd + ';rel=next';
+  return next;
+};
+
+var calcLast = function(count, nb) {
+  var lastBegin = count - nb;
+  var lastEnd = count;
+  var last = lastBegin + '-' + lastEnd + ';rel=last';
+  return last;  
+};
+
+var addLinks = function(req, res) {
+  if (req.happyRest.range && req.count) {
+    var offset = req.happyRest.range.offset;
+    var limit = req.happyRest.range.limit;
+    var count = req.count;
+    var maxResult = req.maxResult;
+    var nb = limit - offset;
+    
+    var first = '0-'+ nb + ';rel=first';
+    var prev = calcPrev(offset, nb);
+    var next = calcNext(limit, count, nb);
+    var last = calcLast(count, nb); 
+
+    res.setHeader('Link', first + ',' + prev + ',' + next + ',' + last );
+
+  }
+};
 
 module.exports = {
 
@@ -45,7 +96,7 @@ module.exports = {
   req.happyRest.range = {
     offset : rangeArray[0],
     limit : rangeArray[1],
-  }
+  };
 
     next();
   },
@@ -53,6 +104,7 @@ module.exports = {
   setHeader: function(req, res, next) {        
     addAcceptRange(req, res);
     addContentRange(req, res);
+    addLinks(req, res);
     next();    
   },
 
