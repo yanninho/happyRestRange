@@ -47,7 +47,7 @@ var calcNext = function(limit, count, nb) {
 
 var calcLast = function(count, nb) {
   var lastBegin = count - nb - 1;
-  var lastEnd = count - 1;
+  var lastEnd = count -1;
   var last = lastBegin + '-' + lastEnd + ';rel=last';
   return last;  
 };
