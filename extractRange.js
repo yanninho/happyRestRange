@@ -20,7 +20,7 @@ var addContentRange = function(req, res) {
 };
 
 var calcPrev = function(offset, nb) {
-  if (offset === 0) {
+  if (parseInt(offset) === 0) {
     return undefined;
   }
   var prevBegin = offset - (1 + nb);
@@ -47,7 +47,7 @@ var calcNext = function(limit, count, nb) {
 
 var calcLast = function(count, nb) {
   var lastBegin = count - nb - 1;
-  var lastEnd = count -1;
+  var lastEnd = count - 1;
   var last = lastBegin + '-' + lastEnd + ';rel=last';
   return last;  
 };
@@ -95,7 +95,7 @@ module.exports = {
   }
   req.happyRest.range = {
     offset : rangeArray[0],
-    limit : rangeArray[1],
+    limit : parseInt(rangeArray[1]) ,
   };
 
     next();
