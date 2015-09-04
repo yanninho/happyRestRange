@@ -83,7 +83,7 @@ module.exports = {
 
   var rangeArray = undefined;
   if (!range) {
-    rangeArray = [0,maxResult];
+    rangeArray = [0,maxResult - 1];
   }
   else {    
     rangeArray = range.split('-');
