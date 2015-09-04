@@ -89,7 +89,7 @@ module.exports = {
     rangeArray = range.split('-');
   }
   var nbRequested = rangeArray[1] - rangeArray[0];
-  if (nbRequested > maxResult) {
+  if (nbRequested > maxResult -1) {
     addAcceptRange(req, res);
     res.status(400).send({reason : 'Requested range not allowed'});
   }
